@@ -1,28 +1,78 @@
 apply plugin: 'com.android.application'
 
+ext {
+    minSdkVersion = 19
+    majorVersion = 1
+    minorVersion = 0
+    patchVersion = 0
+}
+
+def base_url = "BASE_URL";
+def config = { k -> "\"${project.property(k)}\"" }
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.didacticoscsj.pruebatecnica"
-        minSdkVersion 23
+        applicationId "com.valid.pruebatecnica"
+        minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode generateVersionCode()
+        versionName generateVersionName()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+            debuggable = true
+            buildConfigField ("String", base_url, config("base.url.develop"))
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            versionNameSuffix "-dev"
+        }
+        qa {
+            debuggable = true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField ("String", base_url, config("base.url.qa"))
+            versionNameSuffix "-qa"
+        }
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField ("String", base_url, config("base.url.release"))
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            versionNameSuffix "-alpha"
         }
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
     }
 }
 
+private Integer generateVersionCode() {
+    return ext.minSdkVersion * 10000000 + ext.majorVersion * 10000 + ext.minorVersion * 100 + ext.patchVersion
+}
+
+private String generateVersionName() {
+    return "${ext.majorVersion}.${ext.minorVersion}.${ext.patchVersion}"
+}
+
 dependencies {
+    def butter_knife_version = "10.0.0"
+    def dagger_version = "2.15";
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+
+    // butter knife
+    implementation "com.jakewharton:butterknife:$butter_knife_version"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butter_knife_version"
+
+    // dagger
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
 }
