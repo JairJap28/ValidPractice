@@ -8,8 +8,8 @@ import androidx.room.PrimaryKey;
 
 @Entity(
         tableName = "tracks",
-        indices = @Index(value = "track_id", unique = true),
-        foreignKeys = @ForeignKey(entity = Artist.class, parentColumns = "artist_id", childColumns = "track_id")
+        indices = @Index(value = "track_id", unique = true)
+        //foreignKeys = @ForeignKey(entity = Artist.class, parentColumns = "artist_id", childColumns = "track_id")
 )
 public class Track {
 
@@ -22,18 +22,21 @@ public class Track {
 
     private String name;
 
-    private long duration;
+    private String duration;
 
-    private long listeners;
+    private String listeners;
 
     private String url;
 
-    public Track(String mbid, String name, long duration, long listeners, String url) {
+    private String rank;
+
+    public Track(String mbid, String name, String duration, String listeners, String url, String rank) {
         this.mbid = mbid;
         this.name = name;
         this.duration = duration;
         this.listeners = listeners;
         this.url = url;
+        this.rank = rank;
     }
 
     public void setId(int id) {
@@ -50,15 +53,19 @@ public class Track {
         return name;
     }
 
-    public long getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public long getListeners() {
+    public String getListeners() {
         return listeners;
     }
 
     public String getUrl() {
         return url;
+    }
+
+    public String getRank() {
+        return rank;
     }
 }

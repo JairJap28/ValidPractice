@@ -8,6 +8,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        init(this);
     }
 
     private static void init(App app) { mInstance = app; }

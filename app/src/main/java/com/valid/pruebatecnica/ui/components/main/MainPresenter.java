@@ -1,8 +1,8 @@
 package com.valid.pruebatecnica.ui.components.main;
 
+import com.valid.pruebatecnica.data.base.DataStoreBase;
 import com.valid.pruebatecnica.data.entity.Track;
-import com.valid.pruebatecnica.data.source.TrackDataSource;
-import com.valid.pruebatecnica.data.source.TrackRepository;
+import com.valid.pruebatecnica.data.source.geo.repository.GeoRepository;
 import com.valid.pruebatecnica.ui.base.BasePresenter;
 
 import java.lang.ref.WeakReference;
@@ -10,29 +10,33 @@ import java.util.List;
 
 public class MainPresenter extends BasePresenter<MainView> {
 
-    private TrackRepository trackRepository;
+    private GeoRepository geoRepository;
 
-    MainPresenter(MainView mainView, TrackRepository trackRepository) {
+    MainPresenter(MainView mainView, GeoRepository geoRepository) {
         super(mainView);
-        this.trackRepository = trackRepository;
+        this.geoRepository = geoRepository;
     }
 
     protected MainPresenter(MainView view) {
         super(view);
     }
 
-    public void onAttach() {  }
+    public void onAttach() { getAllTracks(); }
 
     private void getAllTracks() {
-        trackRepository.getTracks(new TrackCallListener());
+        geoRepository.getListData(new TrackCallListener(view));
     }
 
-    private static class TrackCallListener implements TrackDataSource.LoadTracksCallack {
+    private static class TrackCallListener implements DataStoreBase.LoadListCallback {
 
         private WeakReference<MainView> view;
 
+        TrackCallListener(MainView view) {
+            this.view = new WeakReference<>(view);
+        }
+
         @Override
-        public void onTrackLoaded(List<Track> tracks) {
+        public void onLoaded(List<Track> tracks) {
             if(view.get() == null) return;
             view.get().showTracks(tracks);
         }

@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.valid.pruebatecnica.R;
 import com.valid.pruebatecnica.data.DataManager;
 import com.valid.pruebatecnica.data.entity.Track;
-import com.valid.pruebatecnica.data.source.TrackDataSource;
-import com.valid.pruebatecnica.data.source.TrackRepository;
+import com.valid.pruebatecnica.data.source.geo.repository.GeoRepository;
 import com.valid.pruebatecnica.ui.base.BaseActivity;
+import com.valid.pruebatecnica.ui.components.detail.DetailsActivity;
 
 import java.util.List;
 
@@ -34,14 +34,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         recyclerViewTracks.setLayoutManager(new LinearLayoutManager(this));
         trackAdapter = new TrackAdapter();
         trackAdapter.setListener(this);
+        recyclerViewTracks.setAdapter(trackAdapter);
         presenter.onAttach();
     }
 
     @NonNull
     @Override
     protected MainPresenter createPresenter() {
-        TrackRepository trackRepository = DataManager.getInstance().getTrackRepository();
-        return new MainPresenter(this, trackRepository);
+        GeoRepository geoRepository = DataManager.getInstance().getTrackRepository();
+        return new MainPresenter(this, geoRepository);
     }
 
     @Override
@@ -61,6 +62,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     public void onTrackClicked(Track track) {
-
+        DetailsActivity.start(this, null);
     }
 }

@@ -1,4 +1,4 @@
-package com.valid.pruebatecnica.data.source.remote.services;
+package com.valid.pruebatecnica.data.source.geo.remote.services;
 
 import com.valid.pruebatecnica.BuildConfig;
 

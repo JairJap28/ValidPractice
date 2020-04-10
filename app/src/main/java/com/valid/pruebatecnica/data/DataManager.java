@@ -1,13 +1,12 @@
 package com.valid.pruebatecnica.data;
 
-import com.valid.pruebatecnica.data.source.TrackRepository;
-import com.valid.pruebatecnica.data.source.local.TrackCacheDataSource;
-import com.valid.pruebatecnica.data.source.local.TrackLocalDataSource;
-import com.valid.pruebatecnica.data.source.local.dao.TrackDao;
-import com.valid.pruebatecnica.data.source.local.database.GeoDatabase;
-import com.valid.pruebatecnica.data.source.remote.TrackRemoteDataSource;
-import com.valid.pruebatecnica.data.source.remote.services.TrackApi;
-import com.valid.pruebatecnica.data.source.remote.services.TrackService;
+import com.valid.pruebatecnica.data.source.geo.repository.GeoRepository;
+import com.valid.pruebatecnica.data.source.track.local.TrackLocalDataSource;
+import com.valid.pruebatecnica.data.source.track.local.dao.TrackDao;
+import com.valid.pruebatecnica.data.base.database.GeoDatabase;
+import com.valid.pruebatecnica.data.source.geo.remote.GeoRemoteDataSource;
+import com.valid.pruebatecnica.data.source.geo.remote.services.TrackApi;
+import com.valid.pruebatecnica.data.source.geo.remote.services.TrackService;
 
 public class DataManager {
 
@@ -20,15 +19,15 @@ public class DataManager {
         return mInstance;
     }
 
-    public TrackRepository getTrackRepository(){
+    public GeoRepository getTrackRepository(){
         TrackApi trackApi= TrackService.getInstance().getTrackApi();
-        TrackRemoteDataSource trackRemote =TrackRemoteDataSource.getInstance(trackApi);
+        GeoRemoteDataSource trackRemote = GeoRemoteDataSource.getInstance(trackApi);
 
         TrackDao trackDao = GeoDatabase.getInstance().trackDao();
         TrackLocalDataSource trackLocal = TrackLocalDataSource.getInstance(trackDao);
 
-        TrackCacheDataSource trackCache = TrackCacheDataSource.getInstance();
+        GeoCacheDataSource trackCache = GeoCacheDataSource.getInstance();
 
-        return TrackRepository.getInstance(trackRemote, trackLocal, trackCache);
+        return GeoRepository.getInstance(trackRemote, trackLocal, trackCache);
     }
 }

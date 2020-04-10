@@ -81,8 +81,8 @@ public class TrackAdapter extends ListAdapter<Track, TrackAdapter.TrackViewHolde
             this.title.setText(title);
         }
 
-        private void setListeners(long listeners) {
-            this.listeners.setText(String.valueOf(listeners));
+        private void setListeners(String listeners) {
+            this.listeners.setText(listeners);
         }
 
         void setClickListener(Track track) {

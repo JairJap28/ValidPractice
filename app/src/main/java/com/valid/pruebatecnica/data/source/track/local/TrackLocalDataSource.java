@@ -1,8 +1,8 @@
-package com.valid.pruebatecnica.data.source.local;
+package com.valid.pruebatecnica.data.source.track.local;
 
 import com.valid.pruebatecnica.data.entity.Track;
-import com.valid.pruebatecnica.data.source.TrackDataSource;
-import com.valid.pruebatecnica.data.source.local.dao.TrackDao;
+import com.valid.pruebatecnica.data.source.track.local.dao.TrackDao;
+import com.valid.pruebatecnica.data.source.track.repository.TrackDataSource;
 import com.valid.pruebatecnica.utils.DiskExecutor;
 
 import java.util.List;
@@ -28,23 +28,33 @@ public class TrackLocalDataSource implements TrackDataSource {
     }
 
     @Override
-    public void getTracks(LoadTracksCallack callack) {
+    public void getListData(LoadListCallback<Track> callback) {
         Runnable runnable = () -> {
             List<Track> tracks = trackDao.getTracks();
             if(!tracks.isEmpty()) {
-                callack.onTrackLoaded(tracks);
+                callback.onLoaded(tracks);
             } else {
-                callack.onDataNotAvailable();
+                callback.onDataNotAvailable();
             }
         };
         executor.execute(runnable);
     }
 
     @Override
-    public void saveTrack(List<Track> tracks) {
+    public void saveListData(List<Track> tracks) {
         Runnable runnable = () -> {
             trackDao.insertAllTracks(tracks);
         };
         executor.execute(runnable);
+    }
+
+    @Override
+    public void getData(LoadSingleCallback<Track> callback) {
+
+    }
+
+    @Override
+    public void saveData(Track object) {
+
     }
 }

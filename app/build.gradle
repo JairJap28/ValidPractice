@@ -17,6 +17,7 @@ ext {
 }
 
 def base_url = "BASE_URL";
+def service_geo_top_tracks = "SERVICE_TOP_TRACKS";
 def config = { k -> "\"${project.property(k)}\"" }
 
 android {
@@ -35,6 +36,7 @@ android {
             minifyEnabled false
             debuggable = true
             buildConfigField("String", base_url, config("base.url.develop"))
+            buildConfigField("String", service_geo_top_tracks, config("base.url.develop.geo_top_tracks"))
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             versionNameSuffix "-dev"
         }
@@ -43,11 +45,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("String", base_url, config("base.url.qa"))
+            buildConfigField("String", service_geo_top_tracks, config("base.url.qa.geo_top_tracks"))
             versionNameSuffix "-qa"
         }
         release {
             minifyEnabled false
             buildConfigField("String", base_url, config("base.url.release"))
+            buildConfigField("String", service_geo_top_tracks, config("base.url.release.geo_top_tracks"))
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             versionNameSuffix "-alpha"
         }
