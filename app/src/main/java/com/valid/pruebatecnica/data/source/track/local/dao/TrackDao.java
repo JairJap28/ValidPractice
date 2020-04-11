@@ -11,8 +11,8 @@ import java.util.List;
 
 @Dao
 public interface TrackDao {
-    @Query("SELECT * FROM tracks ORDER BY listeners ASC")
-    List<Track> getTracks();
+    @Query("SELECT * FROM tracks ORDER BY id ASC LIMIT :limit")
+    List<Track> getTracks(int limit);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertTrack(Track track);

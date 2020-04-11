@@ -41,13 +41,16 @@ public class ArtistTrackLocalDataSource implements ArtistTrackDataSource {
 
 
     @Override
-    public void getListData(LoadListCallback<ArtistTrack> callback) {
+    public void getListData(LoadListCallback<ArtistTrack> callback, int page) {
 
     }
 
     @Override
     public void saveListData(List<ArtistTrack> list) {
-
+        Runnable runnable = () -> {
+            artistTrackDao.insertAll(list);
+        };
+        executor.execute(runnable);
     }
 
     @Override

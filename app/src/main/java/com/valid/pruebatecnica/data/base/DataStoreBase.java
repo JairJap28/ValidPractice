@@ -15,7 +15,7 @@ public interface DataStoreBase<T> {
         void onError();
     }
 
-    void getListData(LoadListCallback<T> callback);
+    void getListData(LoadListCallback<T> callback, int page);
     void saveListData(List<T> list);
     void getData(LoadSingleCallback<T> callback);
     void saveData(T object);

@@ -14,11 +14,15 @@ import retrofit2.Response;
 public class GeoRemoteDataSource implements GeoDataSource {
 
     private static GeoRemoteDataSource mInstance;
-
+    private int page;
     private TrackApi trackApi;
 
-    public GeoRemoteDataSource(TrackApi trackApi) {
+    private GeoRemoteDataSource(TrackApi trackApi) {
         this.trackApi = trackApi;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
     }
 
     public static GeoRemoteDataSource getInstance(TrackApi trackApi) {
@@ -29,8 +33,8 @@ public class GeoRemoteDataSource implements GeoDataSource {
     }
 
     @Override
-    public void getListData(LoadListCallback<TrackResponse> callback) {
-        trackApi.getTracks().enqueue(new Callback<TrackResponse>() {
+    public void getListData(LoadListCallback<TrackResponse> callback, int page) {
+        trackApi.getTracks(page).enqueue(new Callback<TrackResponse>() {
             @Override
             public void onResponse(Call<TrackResponse> call, Response<TrackResponse> response) {
                 if(response.body() != null) {
@@ -49,6 +53,16 @@ public class GeoRemoteDataSource implements GeoDataSource {
 
     @Override
     public void saveListData(List<TrackResponse> list) {
+
+    }
+
+    @Override
+    public void getData(LoadSingleCallback<TrackResponse> callback) {
+
+    }
+
+    @Override
+    public void saveData(TrackResponse object) {
 
     }
 }

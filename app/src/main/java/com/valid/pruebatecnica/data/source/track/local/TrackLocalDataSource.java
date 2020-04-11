@@ -28,9 +28,9 @@ public class TrackLocalDataSource implements TrackDataSource {
     }
 
     @Override
-    public void getListData(LoadListCallback<Track> callback) {
+    public void getListData(LoadListCallback<Track> callback, int page) {
         Runnable runnable = () -> {
-            List<Track> tracks = trackDao.getTracks();
+            List<Track> tracks = trackDao.getTracks(page * 50);
             if(!tracks.isEmpty()) {
                 callback.onLoaded(tracks);
             } else {
@@ -56,5 +56,13 @@ public class TrackLocalDataSource implements TrackDataSource {
     @Override
     public void saveData(Track object) {
 
+    }
+
+    @Override
+    public void deleteAll() {
+        Runnable runnable = () -> {
+            trackDao.deleteAllTracks();
+        };
+        executor.execute(runnable);
     }
 }

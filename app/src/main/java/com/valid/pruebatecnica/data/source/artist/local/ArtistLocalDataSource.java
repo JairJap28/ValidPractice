@@ -20,7 +20,7 @@ public class ArtistLocalDataSource implements ArtistDataSource {
         this.artistDao = artistDao;
     }
 
-    public ArtistLocalDataSource getInstance(ArtistDao artistDao){
+    public static ArtistLocalDataSource getInstance(ArtistDao artistDao){
         if(mInstance == null) {
             mInstance = new ArtistLocalDataSource(new DiskExecutor(), artistDao);
         }
@@ -28,7 +28,7 @@ public class ArtistLocalDataSource implements ArtistDataSource {
     }
 
     @Override
-    public void getListData(LoadListCallback<Artist> callback) {
+    public void getListData(LoadListCallback<Artist> callback, int page) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -46,6 +46,16 @@ public class ArtistLocalDataSource implements ArtistDataSource {
             artistDao.insertAllArtists(list);
         };
         executor.execute(runnable);
+    }
+
+    @Override
+    public void getData(LoadSingleCallback<Artist> callback) {
+
+    }
+
+    @Override
+    public void saveData(Artist object) {
+
     }
 
     @Override

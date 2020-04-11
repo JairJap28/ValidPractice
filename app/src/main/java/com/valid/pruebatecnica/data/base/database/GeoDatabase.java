@@ -6,18 +6,17 @@ import androidx.room.RoomDatabase;
 
 import com.valid.pruebatecnica.App;
 import com.valid.pruebatecnica.data.entity.Artist;
+import com.valid.pruebatecnica.data.entity.ArtistTrack;
 import com.valid.pruebatecnica.data.entity.Track;
 import com.valid.pruebatecnica.data.source.artist.local.dao.ArtistDao;
 import com.valid.pruebatecnica.data.source.artistTrack.local.dao.ArtistTrackDao;
-import com.valid.pruebatecnica.data.source.track.local.dao.ImageTrackDao;
 import com.valid.pruebatecnica.data.source.track.local.dao.TrackDao;
 
-@Database(entities = {Track.class, Artist.class}, version = 4, exportSchema = false)
+@Database(entities = {Track.class, Artist.class, ArtistTrack.class}, version = 7, exportSchema = false)
 public abstract class GeoDatabase extends RoomDatabase {
     public abstract TrackDao trackDao();
     public abstract ArtistDao artistDao();
     public abstract ArtistTrackDao artistTrackDao();
-    public abstract ImageTrackDao imageTrackDao();
 
     private static GeoDatabase instance;
 

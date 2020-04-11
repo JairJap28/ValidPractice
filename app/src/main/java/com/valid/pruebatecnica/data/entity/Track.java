@@ -28,15 +28,18 @@ public class Track {
 
     private String url;
 
+    private String image;
+
     private String rank;
 
-    public Track(String mbid, String name, String duration, String listeners, String url, String rank) {
+    public Track(String mbid, String name, String duration, String listeners, String url, String rank, String image) {
         this.mbid = mbid;
         this.name = name;
         this.duration = duration;
         this.listeners = listeners;
         this.url = url;
         this.rank = rank;
+        this.image = image;
     }
 
     public void setId(int id) {
@@ -63,6 +66,10 @@ public class Track {
 
     public String getUrl() {
         return url;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public String getRank() {

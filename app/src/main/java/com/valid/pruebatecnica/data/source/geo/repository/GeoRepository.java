@@ -1,7 +1,7 @@
 package com.valid.pruebatecnica.data.source.geo.repository;
 
 import com.valid.pruebatecnica.data.entity.Artist;
-import com.valid.pruebatecnica.data.entity.ImageTrack;
+import com.valid.pruebatecnica.data.entity.ArtistTrack;
 import com.valid.pruebatecnica.data.entity.Track;
 import com.valid.pruebatecnica.data.source.artist.repository.ArtistDataSource;
 import com.valid.pruebatecnica.data.source.artistTrack.repository.ArtistTrackDataSource;
@@ -18,18 +18,26 @@ public class GeoRepository implements GeoDataSource {
     private final GeoDataSource geoRemote;
     private final TrackDataSource trackLocal;
     private final ArtistDataSource artistLocal;
-    private final ArtistTrackDataSource artistTrackDataSource;
+    private final ArtistTrackDataSource artistTrackLocal;
+
+    private int page;
 
     private static GeoRepository mInstance;
 
-    private GeoRepository(GeoDataSource geoRemote, TrackDataSource trackLocal, ArtistDataSource artistLocal, ArtistTrackDataSource artistTrackDataSource) {
+    private GeoRepository(GeoDataSource geoRemote, TrackDataSource trackLocal, ArtistDataSource artistLocal,
+                          ArtistTrackDataSource artistTrackLocal) {
         this.geoRemote = geoRemote;
         this.trackLocal = trackLocal;
         this.artistLocal = artistLocal;
-        this.artistTrackDataSource = artistTrackDataSource;
+        this.artistTrackLocal = artistTrackLocal;
     }
 
-    public static GeoRepository getInstance(GeoDataSource trackRemote, TrackDataSource trackLocal, ArtistDataSource artistLocal, ArtistTrackDataSource artistTrackDataSource) {
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public static GeoRepository getInstance(GeoDataSource trackRemote, TrackDataSource trackLocal, ArtistDataSource artistLocal,
+                                            ArtistTrackDataSource artistTrackDataSource) {
         if(mInstance == null) {
             mInstance = new GeoRepository(trackRemote, trackLocal, artistLocal, artistTrackDataSource);
         }
@@ -41,11 +49,12 @@ public class GeoRepository implements GeoDataSource {
     }
 
     @Override
-    public void getListData(LoadListCallback<TrackResponse> callback) {
+    public void getListData(LoadListCallback<TrackResponse> callback, int page) {
         geoRemote.getListData(new LoadListCallback<TrackResponse>() {
             @Override
             public void onLoaded(List<TrackResponse> list) {
                 saveListData(list);
+                callback.onLoaded(list);
             }
 
             @Override
@@ -57,7 +66,7 @@ public class GeoRepository implements GeoDataSource {
             public void onError() {
                 callback.onError();
             }
-        });
+        }, page);
     }
 
     @Override
@@ -66,21 +75,17 @@ public class GeoRepository implements GeoDataSource {
 
         List<Track> tracks = new ArrayList<>();
         List<Artist> artists = new ArrayList<>();
-        List<ImageTrack> imageTracks = new ArrayList<>();
+        List<ArtistTrack> artistTracks = new ArrayList<>();
 
         for (TrackRemote trackRemote: trackResponse.getTracks().getTrack()) {
-            tracks.add(new Track(trackRemote.getMbid(), trackRemote.getName(), trackRemote.getDuration(), trackRemote.getListeners(), trackRemote.getUrl(), trackRemote.getAttr().getRank()));
+            tracks.add(new Track(trackRemote.getMbid(), trackRemote.getName(), trackRemote.getDuration(),
+                    trackRemote.getListeners(), trackRemote.getUrl(), trackRemote.getAttr().getRank(), trackRemote.getImage().get(0).getText()));
             artists.add(trackRemote.getArtist());
-            for (ImageRemote image: trackRemote.getImage()) {
-                imageTracks.add(new ImageTrack(trackRemote.getMbid(), image.getText(), image.getSize()));
-            }
+            artistTracks.add(new ArtistTrack(trackRemote.getArtist().getMbid(), trackRemote.getMbid()));
         }
         trackLocal.saveListData(tracks);
         artistLocal.saveListData(artists);
-        artistTrackDataSource.saveListData(null);
-        // imageTrack
-        // artistLocal
-        // artistTrack
+        artistTrackLocal.saveListData(artistTracks);
     }
 
     @Override

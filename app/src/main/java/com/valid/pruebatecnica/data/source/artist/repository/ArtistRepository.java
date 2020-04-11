@@ -22,7 +22,7 @@ public class ArtistRepository implements ArtistDataSource{
     }
 
     @Override
-    public void getListData(LoadListCallback<Artist> callback) {
+    public void getListData(LoadListCallback<Artist> callback, int page) {
         localArtist.getListData(new LoadListCallback<Artist>() {
             @Override
             public void onLoaded(List<Artist> listArtists) {
@@ -38,12 +38,22 @@ public class ArtistRepository implements ArtistDataSource{
             public void onError() {
                 callback.onError();
             }
-        });
+        }, page);
     }
 
     @Override
     public void saveListData(List<Artist> artists) {
         localArtist.saveListData(artists);
+    }
+
+    @Override
+    public void getData(LoadSingleCallback<Artist> callback) {
+
+    }
+
+    @Override
+    public void saveData(Artist object) {
+
     }
 
 

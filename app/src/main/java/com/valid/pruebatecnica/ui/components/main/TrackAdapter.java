@@ -6,10 +6,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
 import com.valid.pruebatecnica.R;
 import com.valid.pruebatecnica.data.entity.Track;
 
@@ -43,8 +45,9 @@ public class TrackAdapter extends ListAdapter<Track, TrackAdapter.TrackViewHolde
             return oldItem.getId() == newItem.getId() &&
                     oldItem.getMbid().equals(newItem.getMbid()) &&
                     oldItem.getName().equals(newItem.getName()) &&
-                    oldItem.getDuration() == newItem.getDuration() &&
-                    oldItem.getListeners() == newItem.getListeners() &&
+                    oldItem.getDuration().equals(newItem.getDuration()) &&
+                    oldItem.getListeners().equals(newItem.getListeners()) &&
+                    oldItem.getImage().equals(newItem.getImage()) &&
                     oldItem.getUrl().equals(newItem.getUrl());
         }
     };
@@ -62,8 +65,11 @@ public class TrackAdapter extends ListAdapter<Track, TrackAdapter.TrackViewHolde
     }
 
     class TrackViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        @BindView(R.id.image) AppCompatImageView imageView;
         @BindView(R.id. text_view_title) TextView title;
         @BindView(R.id.text_view_listeners) TextView listeners;
+        @BindView(R.id.text_view_duration) TextView duration;
+        @BindView(R.id.text_view_rank) TextView rank;
 
         private TrackViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,8 +79,19 @@ public class TrackAdapter extends ListAdapter<Track, TrackAdapter.TrackViewHolde
         void bind(int position) {
             Track track = getItem(position);
             setClickListener(track);
+            setImageView(track.getImage());
             setTitle(track.getName());
             setListeners(track.getListeners());
+            setDuration(track.getDuration());
+            setRank(track.getRank());
+        }
+
+        private void setImageView(String url){
+            if(!url.isEmpty()) {
+                Picasso.get()
+                        .load(url)
+                        .into(imageView);
+            }
         }
 
         private void setTitle(String title) {
@@ -84,6 +101,10 @@ public class TrackAdapter extends ListAdapter<Track, TrackAdapter.TrackViewHolde
         private void setListeners(String listeners) {
             this.listeners.setText(listeners);
         }
+
+        private void setDuration(String duration) { this.duration.setText(duration); }
+
+        private void setRank(String rank) { this.rank.setText(rank); }
 
         void setClickListener(Track track) {
             itemView.setTag(track);
@@ -95,5 +116,4 @@ public class TrackAdapter extends ListAdapter<Track, TrackAdapter.TrackViewHolde
             listener.onTrackClicked((Track) view.getTag());
         }
     }
-
 }

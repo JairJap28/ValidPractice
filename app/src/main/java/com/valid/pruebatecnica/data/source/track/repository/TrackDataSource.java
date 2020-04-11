@@ -4,4 +4,5 @@ import com.valid.pruebatecnica.data.base.DataStoreBase;
 import com.valid.pruebatecnica.data.entity.Track;
 
 public interface TrackDataSource extends DataStoreBase<Track> {
+    void deleteAll();
 }

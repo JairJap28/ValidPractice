@@ -8,13 +8,13 @@ public class ArtistTrack {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private int idArtist;
+    private String idArtist;
 
-    private int idSong;
+    private String idTrack;
 
-    public ArtistTrack(int idArtist, int idSong) {
+    public ArtistTrack(String idArtist, String idTrack) {
         this.idArtist = idArtist;
-        this.idSong = idSong;
+        this.idTrack = idTrack;
     }
 
     public int getId() {
@@ -25,11 +25,11 @@ public class ArtistTrack {
         this.id = id;
     }
 
-    public int getIdArtist() {
+    public String getIdArtist() {
         return idArtist;
     }
 
-    public int getIdSong() {
-        return idSong;
+    public String getIdTrack() {
+        return idTrack;
     }
 }

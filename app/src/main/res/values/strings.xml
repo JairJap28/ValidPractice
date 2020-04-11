@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">PruebaTecnica</string>
+    <string name="listeners">Listeners:</string>
+    <string name="duration">Duration:</string>
+    <string name="default_0">0</string>
+    <string name="rank">Rank</string>
+    <string name="title">Title</string>
+    <string name="borrar_todos">Borrar Todos</string>
+    <string name="no_hay_canciones_almacenadas">No hay canciones almacenadas</string>
 </resources>

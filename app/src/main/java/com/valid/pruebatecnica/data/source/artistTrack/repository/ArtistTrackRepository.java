@@ -44,7 +44,7 @@ public class ArtistTrackRepository implements ArtistTrackDataSource {
     }
 
     @Override
-    public void getListData(LoadListCallback<ArtistTrack> callback) {
+    public void getListData(LoadListCallback<ArtistTrack> callback, int page) {
 
     }
 

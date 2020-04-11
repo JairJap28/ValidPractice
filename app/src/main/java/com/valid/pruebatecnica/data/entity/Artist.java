@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey;
         indices = @Index(value = "artist_id", unique = true)
 )
 public class Artist {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name = "artist_id")

@@ -7,13 +7,14 @@ ext {
     patchVersion = 0
 
     butter_knife_version = '10.0.0'
-    dagger_version = '2.15';
+    dagger_version = '2.16';
     roomVersion = '1.1.1'
     gsonVersion = '2.8.2'
     picassoVersion = '2.71828'
     retrofitVersion = '2.3.0'
     recyclerViewVersion = '1.1.0'
     cardViewVersion = '1.0.0'
+    picassoVersion = '2.71828';
 }
 
 def base_url = "BASE_URL";
@@ -84,8 +85,8 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:$butter_knife_version"
 
     // dagger
-    implementation "com.google.dagger:dagger-android:$dagger_version"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+    implementation "com.google.dagger:dagger:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
 
     // room
     implementation "android.arch.persistence.room:runtime:$roomVersion"
@@ -103,4 +104,10 @@ dependencies {
 
     // cardview
     implementation "androidx.cardview:cardview:$cardViewVersion"
+
+    // picasso
+    implementation "com.squareup.picasso:picasso:$picassoVersion"
+
+    // powerRefresh
+    implementation 'com.github.recruit-lifestyle:WaveSwipeRefreshLayout:1.6'
 }
