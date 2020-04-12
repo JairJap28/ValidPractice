@@ -44,6 +44,26 @@ public class ArtistTrackRepository implements ArtistTrackDataSource {
     }
 
     @Override
+    public void getNumberSongsArtist(LoadSingleCallback<Integer> callback, String mbId) {
+        localArtistTrack.getNumberSongsArtist(new LoadSingleCallback<Integer>() {
+            @Override
+            public void onLoaded(Integer numberSongs) {
+                callback.onLoaded(numberSongs);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                callback.onDataNotAvailable();
+            }
+
+            @Override
+            public void onError() {
+                callback.onError();
+            }
+        }, mbId);
+    }
+
+    @Override
     public void getListData(LoadListCallback<ArtistTrack> callback, int page) {
 
     }

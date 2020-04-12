@@ -6,4 +6,5 @@ import com.valid.pruebatecnica.data.entity.ArtistTrack;
 
 public interface ArtistTrackDataSource extends DataStoreBase<ArtistTrack> {
     void getArtistByIdTrack(LoadSingleCallback<Artist> listCallback, String mbId);
+    void getNumberSongsArtist(LoadSingleCallback<Integer> callback, String mbId);
 }

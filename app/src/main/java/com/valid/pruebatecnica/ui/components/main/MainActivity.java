@@ -22,6 +22,7 @@ import com.valid.pruebatecnica.App;
 import com.valid.pruebatecnica.R;
 import com.valid.pruebatecnica.data.entity.Track;
 import com.valid.pruebatecnica.ui.base.BaseActivity;
+import com.valid.pruebatecnica.ui.base.Navegador;
 import com.valid.pruebatecnica.ui.components.detail.DetailsActivity;
 
 import java.util.List;
@@ -212,7 +213,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     @Override
     public void onTrackClicked(Track track) {
         hideLoading();
-        DetailsActivity.start(this, null);
+        Navegador.mainToDetails(this, track);
     }
 
     @OnClick(R.id.btn_search_tracks)

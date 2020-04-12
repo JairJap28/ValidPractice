@@ -7,4 +7,13 @@
     <string name="title">Title</string>
     <string name="borrar_todos">Borrar Todos</string>
     <string name="no_hay_canciones_almacenadas">No hay canciones almacenadas</string>
+    <string name="track_image">Track Image</string>
+    <string name="divider">Divider</string>
+    <string name="ver_track_online">Ver Track Online</string>
+    <string name="mbid">Mbid:</string>
+    <string name="name">Name:</string>
+    <string name="ver_artiste_online">Ver Artista Online</string>
+    <string name="canciones">Canciones:</string>
+    <string name="icon_info">Icon Info</string>
+    <string name="consultar">Consultar</string>
 </resources>

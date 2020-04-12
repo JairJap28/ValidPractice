@@ -19,6 +19,13 @@ public interface ArtistTrackDao {
             "LIMIT 1")
     Artist getArtistByIdTrack(String mbId);
 
+    @Query("SELECT COUNT(artist_id) FROM artists " +
+            "INNER JOIN ArtistTrack ON artist_id = idArtist " +
+            "INNER JOIN tracks ON track_id = idTrack " +
+            "WHERE idArtist=:mbId " +
+            "GROUP BY artist_id, artists.name")
+    int getNumberSongsArtist(String mbId);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(ArtistTrack artistTrack);
 

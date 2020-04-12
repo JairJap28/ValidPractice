@@ -1,5 +1,8 @@
 package com.valid.pruebatecnica.data.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -11,7 +14,7 @@ import androidx.room.PrimaryKey;
         indices = @Index(value = "track_id", unique = true)
         //foreignKeys = @ForeignKey(entity = Artist.class, parentColumns = "artist_id", childColumns = "track_id")
 )
-public class Track {
+public class Track implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -74,5 +77,45 @@ public class Track {
 
     public String getRank() {
         return rank;
+    }
+
+    protected Track(Parcel in) {
+        id = in.readInt();
+        mbid = in.readString();
+        name = in.readString();
+        duration = in.readString();
+        listeners = in.readString();
+        url = in.readString();
+        image = in.readString();
+        rank = in.readString();
+    }
+
+    public static final Creator<Track> CREATOR = new Creator<Track>() {
+        @Override
+        public Track createFromParcel(Parcel in) {
+            return new Track(in);
+        }
+
+        @Override
+        public Track[] newArray(int size) {
+            return new Track[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(mbid);
+        parcel.writeString(name);
+        parcel.writeString(duration);
+        parcel.writeString(listeners);
+        parcel.writeString(url);
+        parcel.writeString(image);
+        parcel.writeString(rank);
     }
 }

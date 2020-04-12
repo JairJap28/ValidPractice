@@ -6,6 +6,7 @@ import com.valid.pruebatecnica.data.source.artist.local.dao.ArtistDao;
 import com.valid.pruebatecnica.data.source.artistTrack.local.ArtistTrackLocalDataSource;
 import com.valid.pruebatecnica.data.source.artistTrack.local.dao.ArtistTrackDao;
 import com.valid.pruebatecnica.data.source.artistTrack.repository.ArtistTrackDataSource;
+import com.valid.pruebatecnica.data.source.artistTrack.repository.ArtistTrackRepository;
 import com.valid.pruebatecnica.data.source.geo.remote.GeoRemoteDataSource;
 import com.valid.pruebatecnica.data.source.geo.remote.services.TrackApi;
 import com.valid.pruebatecnica.data.source.geo.remote.services.TrackService;
@@ -45,4 +46,11 @@ public class RepositoryModule {
         return TrackRepository.getInstance(trackLocal);
     }
 
+    @Provides
+    ArtistTrackRepository provideArtistTrackRepository(){
+        ArtistTrackDao artistTrackDao = GeoDatabase.getInstance().artistTrackDao();
+        ArtistTrackDataSource artistTrackLocal = ArtistTrackLocalDataSource.getInstance(artistTrackDao);
+
+        return ArtistTrackRepository.getInstance(artistTrackLocal);
+    }
 }

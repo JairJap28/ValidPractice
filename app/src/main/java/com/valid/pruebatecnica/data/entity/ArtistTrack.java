@@ -1,9 +1,13 @@
 package com.valid.pruebatecnica.data.entity;
 
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "ArtistTrack")
+@Entity(
+        tableName = "ArtistTrack",
+        indices = {@Index(value = {"idArtist", "idTrack"}, unique = true)}
+)
 public class ArtistTrack {
     @PrimaryKey(autoGenerate = true)
     private int id;

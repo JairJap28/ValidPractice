@@ -39,6 +39,15 @@ public class ArtistTrackLocalDataSource implements ArtistTrackDataSource {
         executor.execute(runnable);
     }
 
+    @Override
+    public void getNumberSongsArtist(LoadSingleCallback<Integer> callback, String mbId) {
+        Runnable runnable = () -> {
+            int numberSongs = artistTrackDao.getNumberSongsArtist(mbId);
+            callback.onLoaded(numberSongs);
+        };
+        executor.execute(runnable);
+    }
+
 
     @Override
     public void getListData(LoadListCallback<ArtistTrack> callback, int page) {

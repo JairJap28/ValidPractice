@@ -12,7 +12,7 @@ import com.valid.pruebatecnica.data.source.artist.local.dao.ArtistDao;
 import com.valid.pruebatecnica.data.source.artistTrack.local.dao.ArtistTrackDao;
 import com.valid.pruebatecnica.data.source.track.local.dao.TrackDao;
 
-@Database(entities = {Track.class, Artist.class, ArtistTrack.class}, version = 7, exportSchema = false)
+@Database(entities = {Track.class, Artist.class, ArtistTrack.class}, version = 8, exportSchema = false)
 public abstract class GeoDatabase extends RoomDatabase {
     public abstract TrackDao trackDao();
     public abstract ArtistDao artistDao();

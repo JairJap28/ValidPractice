@@ -76,7 +76,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_info_outline_gray_64dp"/>
+            android:src="@drawable/ic_info_outline_gray_64dp"
+            android:contentDescription="@string/icon_info"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -87,7 +88,7 @@
             android:id="@+id/btn_search_tracks"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
-            android:text="Consultar"/>
+            android:text="@string/consultar"/>
 
 
         <ProgressBar
