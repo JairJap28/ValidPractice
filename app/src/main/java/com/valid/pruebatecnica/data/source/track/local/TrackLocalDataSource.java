@@ -9,24 +9,29 @@ import java.util.List;
 import java.util.concurrent.Executor;
 
 public class TrackLocalDataSource implements TrackDataSource {
-
+    // region Properties
     private Executor executor;
     private TrackDao trackDao;
-
     private static TrackLocalDataSource mInstance;
+    // endregion
 
+    // region Constructor
     private TrackLocalDataSource(Executor executor, TrackDao trackDao) {
         this.executor = executor;
         this.trackDao = trackDao;
     }
+    // endregion
 
+    // region Class methods
     public static TrackLocalDataSource getInstance(TrackDao trackDao){
         if(mInstance == null) {
             mInstance = new TrackLocalDataSource(new DiskExecutor(), trackDao);
         }
         return mInstance;
     }
+    // endregion
 
+    // region Override methods
     @Override
     public void getListData(LoadListCallback<Track> callback, int page) {
         Runnable runnable = () -> {
@@ -65,4 +70,5 @@ public class TrackLocalDataSource implements TrackDataSource {
         };
         executor.execute(runnable);
     }
+    // endregion
 }

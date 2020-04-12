@@ -10,6 +10,7 @@ import androidx.room.PrimaryKey;
         indices = @Index(value = "artist_id", unique = true)
 )
 public class Artist {
+    // region Properties
     @PrimaryKey(autoGenerate = true)
     private int id;
 
@@ -43,4 +44,5 @@ public class Artist {
     public String getUrl() {
         return url;
     }
+    // endregion
 }

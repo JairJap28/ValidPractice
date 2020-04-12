@@ -6,24 +6,28 @@ import com.valid.pruebatecnica.data.source.artistTrack.repository.ArtistTrackRep
 import com.valid.pruebatecnica.ui.base.BasePresenter;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 
 import javax.inject.Inject;
 
 public class DetailsPresenter extends BasePresenter<DetailsView> {
 
+    // region Properties
     @Inject ArtistTrackRepository artistTrackRepository;
 
     private String mbIdTrack;
 
-    protected DetailsPresenter(DetailsView view) {
-        super(view);
-    }
-
     public void setMbIdTrack(String mbIdTrack) {
         this.mbIdTrack = mbIdTrack;
     }
+    // endregion
 
+    // region Constructor
+    DetailsPresenter(DetailsView view) {
+        super(view);
+    }
+    // endregion
+
+    // region Class methods
     public void onAttach() { getArtistsBiId(); }
 
     private void getArtistsBiId() {
@@ -33,7 +37,9 @@ public class DetailsPresenter extends BasePresenter<DetailsView> {
     private void getNumberSongs(String mbIdArtist){
         artistTrackRepository.getNumberSongsArtist(new NumberSongsTrackCall(view), mbIdArtist);
     }
+    // endregion
 
+    // region Class listeners
     private class ArtistTrackCall implements DataStoreBase.LoadSingleCallback<Artist> {
 
         private WeakReference<DetailsView> detailsView;
@@ -51,12 +57,12 @@ public class DetailsPresenter extends BasePresenter<DetailsView> {
 
         @Override
         public void onDataNotAvailable() {
-            if(detailsView == null) return;
+
         }
 
         @Override
         public void onError() {
-            if(detailsView == null) return;
+
         }
     }
 
@@ -76,12 +82,13 @@ public class DetailsPresenter extends BasePresenter<DetailsView> {
 
         @Override
         public void onDataNotAvailable() {
-            if(detailsView == null) return;
+
         }
 
         @Override
         public void onError() {
-            if(detailsView == null) return;
+
         }
     }
+    // endregion
 }

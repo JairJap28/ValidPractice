@@ -6,13 +6,14 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TrackService {
+    // region Properties
     private static final String URL = BuildConfig.BASE_URL;
-
     private TrackApi trackApi;
-
     private static TrackService mInstance;
+    // endregion
 
-    public TrackService() {
+    // region Constructor
+    private TrackService() {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(URL)
@@ -20,7 +21,9 @@ public class TrackService {
 
         trackApi = retrofit.create(TrackApi.class);
     }
+    // endregion
 
+    // region Class methods
     public static TrackService getInstance(){
         if(mInstance == null) {
             mInstance = new TrackService();
@@ -29,4 +32,5 @@ public class TrackService {
     }
 
     public TrackApi getTrackApi() { return trackApi; }
+    // endregion
 }

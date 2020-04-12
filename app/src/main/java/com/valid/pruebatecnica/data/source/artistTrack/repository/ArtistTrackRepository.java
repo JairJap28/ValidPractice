@@ -2,27 +2,31 @@ package com.valid.pruebatecnica.data.source.artistTrack.repository;
 
 import com.valid.pruebatecnica.data.entity.Artist;
 import com.valid.pruebatecnica.data.entity.ArtistTrack;
-import com.valid.pruebatecnica.data.source.track.repository.TrackDataSource;
 
 import java.util.List;
 
 public class ArtistTrackRepository implements ArtistTrackDataSource {
-
+    // region Properties
     private final ArtistTrackDataSource localArtistTrack;
-
     public static ArtistTrackRepository mInstance;
+    // endregion
 
+    // region Constructor
     private ArtistTrackRepository(ArtistTrackDataSource localArtistTrack) {
         this.localArtistTrack = localArtistTrack;
     }
+    // endregion
 
+    // region Class methods
     public static ArtistTrackRepository getInstance(ArtistTrackDataSource localArtistTrack){
         if(mInstance == null) {
             mInstance = new ArtistTrackRepository(localArtistTrack);
         }
         return mInstance;
     }
+    // endregion
 
+    // region Class methods
     @Override
     public void getArtistByIdTrack(LoadSingleCallback<Artist> callback, String mbId) {
         localArtistTrack.getArtistByIdTrack(new LoadSingleCallback<Artist>() {
@@ -82,4 +86,5 @@ public class ArtistTrackRepository implements ArtistTrackDataSource {
     public void saveData(ArtistTrack artist) {
         localArtistTrack.saveData(artist);
     }
+    // endregion
 }

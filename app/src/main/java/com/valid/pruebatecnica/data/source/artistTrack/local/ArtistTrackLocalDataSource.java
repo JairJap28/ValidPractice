@@ -11,24 +11,29 @@ import java.util.List;
 import java.util.concurrent.Executor;
 
 public class ArtistTrackLocalDataSource implements ArtistTrackDataSource {
-
+    // region Properties
     private Executor executor;
     private ArtistTrackDao artistTrackDao;
-
     public static ArtistTrackLocalDataSource mInstance;
+    // endregion
 
+    // region Constructor
     private ArtistTrackLocalDataSource(Executor executor, ArtistTrackDao artistTrackDao) {
         this.executor = executor;
         this.artistTrackDao = artistTrackDao;
     }
+    // endregion
 
+    // region Class methods
     public static ArtistTrackLocalDataSource getInstance(ArtistTrackDao artistTrackDao) {
         if(mInstance == null) {
             mInstance = new ArtistTrackLocalDataSource(new DiskExecutor(), artistTrackDao);
         }
         return mInstance;
     }
+    // endregion
 
+    // region Override methods
     @Override
     public void getArtistByIdTrack(DataStoreBase.LoadSingleCallback<Artist> callback, String mbId) {
         Runnable runnable = () -> {
@@ -47,7 +52,6 @@ public class ArtistTrackLocalDataSource implements ArtistTrackDataSource {
         };
         executor.execute(runnable);
     }
-
 
     @Override
     public void getListData(LoadListCallback<ArtistTrack> callback, int page) {
@@ -74,4 +78,5 @@ public class ArtistTrackLocalDataSource implements ArtistTrackDataSource {
         };
         executor.execute(runnable);
     }
+    // endregion
 }

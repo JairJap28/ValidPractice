@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey;
         indices = {@Index(value = {"idArtist", "idTrack"}, unique = true)}
 )
 public class ArtistTrack {
+    // region Properties
     @PrimaryKey(autoGenerate = true)
     private int id;
 
@@ -36,4 +37,5 @@ public class ArtistTrack {
     public String getIdTrack() {
         return idTrack;
     }
+    // endregion
 }

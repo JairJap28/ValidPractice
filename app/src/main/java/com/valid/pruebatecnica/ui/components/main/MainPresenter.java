@@ -1,7 +1,5 @@
 package com.valid.pruebatecnica.ui.components.main;
 
-import android.app.Application;
-
 import com.valid.pruebatecnica.data.base.DataStoreBase;
 import com.valid.pruebatecnica.data.entity.Track;
 import com.valid.pruebatecnica.data.source.geo.remote.model.TrackResponse;
@@ -15,20 +13,24 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class MainPresenter extends BasePresenter<MainView> {
-
+    // region Properties
     @Inject GeoRepository geoRepository;
     @Inject TrackRepository trackRepository;
 
     private int page;
 
-    MainPresenter(MainView view) {
-        super(view);
-    }
-
     public void setPage(int page) {
         this.page = page;
     }
+    // endregion
 
+    // region Constructor
+    MainPresenter(MainView view) {
+        super(view);
+    }
+    // endregion
+
+    // region Class methods
     public void onAttach() { getAllRemoteTracks(); }
 
     private void getAllRemoteTracks() {
@@ -43,7 +45,9 @@ public class MainPresenter extends BasePresenter<MainView> {
         trackRepository.deleteAll();
         getAllRemoteTracks();
     }
+    // endregion
 
+    // region Class listener
     private class GeoCallListener implements DataStoreBase.LoadListCallback<TrackResponse> {
 
         private WeakReference<MainView> view;
@@ -97,4 +101,5 @@ public class MainPresenter extends BasePresenter<MainView> {
             view.get().showErrorMessage();
         }
     }
+    // endregion
 }

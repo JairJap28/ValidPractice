@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -14,7 +13,7 @@ import androidx.room.PrimaryKey;
         indices = @Index(value = "track_id", unique = true)
 )
 public class Track implements Parcelable {
-
+    // region Properties
     @PrimaryKey(autoGenerate = true)
     private int id;
 
@@ -34,6 +33,7 @@ public class Track implements Parcelable {
 
     private String rank;
 
+    // region Contructor
     public Track(String mbid, String name, String duration, String listeners, String url, String rank, String image) {
         this.mbid = mbid;
         this.name = name;
@@ -44,11 +44,17 @@ public class Track implements Parcelable {
         this.image = image;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    // region Override parceable methods
+    protected Track(Parcel in) {
+        id = in.readInt();
+        mbid = in.readString();
+        name = in.readString();
+        duration = in.readString();
+        listeners = in.readString();
+        url = in.readString();
+        image = in.readString();
+        rank = in.readString();
     }
-
-    public int getId() { return id; };
 
     public String getMbid() {
         return mbid;
@@ -77,16 +83,15 @@ public class Track implements Parcelable {
     public String getRank() {
         return rank;
     }
+    // endregion
 
-    protected Track(Parcel in) {
-        id = in.readInt();
-        mbid = in.readString();
-        name = in.readString();
-        duration = in.readString();
-        listeners = in.readString();
-        url = in.readString();
-        image = in.readString();
-        rank = in.readString();
+    public int getId() {
+        return id;
+    }
+    // endregion
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public static final Creator<Track> CREATOR = new Creator<Track>() {
@@ -117,4 +122,5 @@ public class Track implements Parcelable {
         parcel.writeString(image);
         parcel.writeString(rank);
     }
+    // endregion
 }

@@ -18,7 +18,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.valid.pruebatecnica.App;
 import com.valid.pruebatecnica.R;
 import com.valid.pruebatecnica.data.entity.Track;
@@ -33,8 +32,7 @@ import butterknife.OnClick;
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainView, TrackAdapter.TrackListener {
-
-
+    // region Properties
     private TrackAdapter trackAdapter;
 
     @BindView(R.id.my_toolbar)
@@ -56,7 +54,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     ProgressBar progressBarSearch;
 
     MainActivityData data;
+    // endregion
 
+    // region Override methods
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,66 +86,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void initUI() {
-        initSwipeLayout();
-        initAdapter();
-        initScrollListener();
-        setNumberRecords();
-        showLoading();
-    }
-
-    private void initSwipeLayout(){
-        mWaveSwipeRefreshLayout.setColorSchemeColors(Color.WHITE, Color.WHITE);
-        mWaveSwipeRefreshLayout.setWaveColor(Color.rgb(10, 182,234));
-        mWaveSwipeRefreshLayout.setOnRefreshListener(this::loadNextTracks);
-    }
-
-    private void initAdapter() {
-        trackAdapter = new TrackAdapter();
-        trackAdapter.setListener(this);
-        recyclerViewTracks.setAdapter(trackAdapter);
-    }
-
-    private void initScrollListener() {
-        recyclerViewTracks.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                if(!data.isLoading()) {
-                    if(linearLayoutManager != null && data.getTraks().size() > 8 &&
-                            linearLayoutManager.findLastCompletelyVisibleItemPosition() == data.getTraks().size() - 1) {
-                        showLoading();
-                        data.setLoading(true);
-                        loadNextTracks();
-                    }
-                }
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
-    }
-
-    private void initPresenter() {
-        presenter.setPage(data.getPage());
-        presenter.onAttach();
-    }
-
-
-    private void setNumberRecords(){
-        numberRecords.setText(String.valueOf(data.getNumResults()));
-    }
-
-
-    private void loadNextTracks() {
-        recyclerViewTracks.setVisibility(View.VISIBLE);
-        presenter.setPage(data.getPage());
-        presenter.onAttach();
     }
 
     @Override
@@ -209,10 +149,73 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         hideLoading();
         Navegador.mainToDetails(this, track);
     }
+    // endregion
 
+    // region Class methods
+    private void initUI() {
+        initSwipeLayout();
+        initAdapter();
+        initScrollListener();
+        setNumberRecords();
+        showLoading();
+    }
+
+    private void initSwipeLayout() {
+        mWaveSwipeRefreshLayout.setColorSchemeColors(Color.WHITE, Color.WHITE);
+        mWaveSwipeRefreshLayout.setWaveColor(Color.rgb(10, 182, 234));
+        mWaveSwipeRefreshLayout.setOnRefreshListener(this::loadNextTracks);
+    }
+
+    private void initAdapter() {
+        trackAdapter = new TrackAdapter();
+        trackAdapter.setListener(this);
+        recyclerViewTracks.setAdapter(trackAdapter);
+    }
+
+    private void initScrollListener() {
+        recyclerViewTracks.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                if (!data.isLoading()) {
+                    if (linearLayoutManager != null && data.getTraks().size() > 8 &&
+                            linearLayoutManager.findLastCompletelyVisibleItemPosition() == data.getTraks().size() - 1) {
+                        showLoading();
+                        data.setLoading(true);
+                        loadNextTracks();
+                    }
+                }
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+    }
+
+    private void initPresenter() {
+        presenter.setPage(data.getPage());
+        presenter.onAttach();
+    }
+
+    private void setNumberRecords() {
+        numberRecords.setText(String.valueOf(data.getNumResults()));
+    }
+
+    private void loadNextTracks() {
+        recyclerViewTracks.setVisibility(View.VISIBLE);
+        presenter.setPage(data.getPage());
+        presenter.onAttach();
+    }
+    // endregion
+
+    // region Butterknife methods
     @OnClick(R.id.btn_search_tracks)
     void search() {
         progressBarSearch.setVisibility(View.VISIBLE);
         loadNextTracks();
     }
+    // endregion
 }

@@ -5,25 +5,24 @@ import com.valid.pruebatecnica.data.entity.ArtistTrack;
 import com.valid.pruebatecnica.data.entity.Track;
 import com.valid.pruebatecnica.data.source.artist.repository.ArtistDataSource;
 import com.valid.pruebatecnica.data.source.artistTrack.repository.ArtistTrackDataSource;
-import com.valid.pruebatecnica.data.source.track.repository.TrackDataSource;
-import com.valid.pruebatecnica.data.source.geo.remote.model.ImageRemote;
 import com.valid.pruebatecnica.data.source.geo.remote.model.TrackRemote;
 import com.valid.pruebatecnica.data.source.geo.remote.model.TrackResponse;
+import com.valid.pruebatecnica.data.source.track.repository.TrackDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GeoRepository implements GeoDataSource {
 
+    // region Properties
     private final GeoDataSource geoRemote;
     private final TrackDataSource trackLocal;
     private final ArtistDataSource artistLocal;
     private final ArtistTrackDataSource artistTrackLocal;
-
-    private int page;
-
     private static GeoRepository mInstance;
+    // endregion
 
+    // region Constructor
     private GeoRepository(GeoDataSource geoRemote, TrackDataSource trackLocal, ArtistDataSource artistLocal,
                           ArtistTrackDataSource artistTrackLocal) {
         this.geoRemote = geoRemote;
@@ -31,11 +30,9 @@ public class GeoRepository implements GeoDataSource {
         this.artistLocal = artistLocal;
         this.artistTrackLocal = artistTrackLocal;
     }
+    // endregion
 
-    public void setPage(int page) {
-        this.page = page;
-    }
-
+    // region Class methods
     public static GeoRepository getInstance(GeoDataSource trackRemote, TrackDataSource trackLocal, ArtistDataSource artistLocal,
                                             ArtistTrackDataSource artistTrackDataSource) {
         if(mInstance == null) {
@@ -43,11 +40,9 @@ public class GeoRepository implements GeoDataSource {
         }
         return mInstance;
     }
+    // endregion
 
-    public void destroyInstance(){
-        mInstance = null;
-    }
-
+    // region Override methods
     @Override
     public void getListData(LoadListCallback<TrackResponse> callback, int page) {
         geoRemote.getListData(new LoadListCallback<TrackResponse>() {
@@ -101,4 +96,5 @@ public class GeoRepository implements GeoDataSource {
     public void saveData(TrackResponse object) {
 
     }
+    // endregion
 }

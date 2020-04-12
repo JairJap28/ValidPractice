@@ -1,31 +1,31 @@
 package com.valid.pruebatecnica.data.source.track.repository;
 
-import com.valid.pruebatecnica.data.base.DataStoreBase;
 import com.valid.pruebatecnica.data.entity.Track;
 
 import java.util.List;
 
 public class TrackRepository implements TrackDataSource {
-
+    // region Properties
     private final TrackDataSource localTrack;
-    private int page;
     private static TrackRepository mInstance;
+    // endregion
 
+    // region Constructor
     private TrackRepository(TrackDataSource localTrack) {
         this.localTrack = localTrack;
     }
+    // endregion
 
-    public void setPage(int page) {
-        this.page = page;
-    }
-
+    // region Class methods
     public static TrackRepository getInstance(TrackDataSource localTrack) {
         if(mInstance == null) {
             mInstance = new TrackRepository(localTrack);
         }
         return mInstance;
     }
+    // endregion
 
+    // region Override methods
     @Override
     public void getListData(LoadListCallback<Track> callback, int page) {
         localTrack.getListData(new LoadListCallback<Track>() {
@@ -65,4 +65,5 @@ public class TrackRepository implements TrackDataSource {
     public void deleteAll() {
         localTrack.deleteAll();
     }
+    // endregion
 }

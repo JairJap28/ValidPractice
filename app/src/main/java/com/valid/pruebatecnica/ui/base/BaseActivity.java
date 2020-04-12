@@ -1,22 +1,20 @@
 package com.valid.pruebatecnica.ui.base;
 
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.valid.pruebatecnica.App;
-
 public abstract class BaseActivity<Presenter extends BasePresenter> extends AppCompatActivity {
+    // region Properties
     protected Presenter presenter;
-    protected abstract void initInject();
-    private BaseView view;
+    // endregion
 
     @NonNull
     protected abstract Presenter createPresenter();
 
+    // region Override methods
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,4 +27,9 @@ public abstract class BaseActivity<Presenter extends BasePresenter> extends AppC
         super.onDestroy();
         presenter.onDetach();
     }
+    // endregion
+
+    // region Class methods
+    protected abstract void initInject();
+    // endregion
 }

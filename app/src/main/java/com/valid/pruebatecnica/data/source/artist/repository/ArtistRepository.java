@@ -5,22 +5,28 @@ import com.valid.pruebatecnica.data.entity.Artist;
 import java.util.List;
 
 public class ArtistRepository implements ArtistDataSource{
-
+    // region Properties
     private final ArtistDataSource localArtist;
 
     private static ArtistRepository mInstance;
+    // endregion
 
+    // region Constructor
     private ArtistRepository(ArtistDataSource localArtist) {
         this.localArtist = localArtist;
     }
+    // endregion
 
+    // region Class methods
     public static ArtistRepository getInstance(ArtistDataSource locarArtist){
         if(mInstance == null) {
             mInstance = new ArtistRepository(locarArtist);
         }
         return mInstance;
     }
+    // endregion
 
+    // region Override methods
     @Override
     public void getListData(LoadListCallback<Artist> callback, int page) {
         localArtist.getListData(new LoadListCallback<Artist>() {
@@ -56,7 +62,6 @@ public class ArtistRepository implements ArtistDataSource{
 
     }
 
-
     @Override
     public void getArtistsByIdTrack(LoadSingleCallback<Artist> callback, String trackMbId) {
         localArtist.getArtistsByIdTrack(new LoadSingleCallback<Artist>() {
@@ -76,4 +81,5 @@ public class ArtistRepository implements ArtistDataSource{
             }
         }, trackMbId);
     }
+    // endregion
 }

@@ -8,6 +8,7 @@ import com.valid.pruebatecnica.data.entity.Track;
 import com.valid.pruebatecnica.ui.components.detail.DetailsActivity;
 
 public class Navegador {
+    // region Class methods
     public static void mainToDetails(Context context, Track track) {
         Intent intent = new Intent(context, DetailsActivity.class);
         intent.putExtra(DetailsActivity.EXTRA_TRACK, track);
@@ -19,4 +20,5 @@ public class Navegador {
         intent.setData(Uri.parse(url));
         context.startActivity(intent);
     }
+    // endregion
 }

@@ -1,6 +1,5 @@
 package com.valid.pruebatecnica.ui.components.detail;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -23,7 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class DetailsActivity extends BaseActivity<DetailsPresenter> implements DetailsView  {
-
+    // region Properties
     public static final String EXTRA_TRACK = "com.valid.pruebatecnica.EXTRA_TRACK";
 
     @BindView(R.id.image_view_track) ImageView imageViewTrack;
@@ -38,30 +37,15 @@ public class DetailsActivity extends BaseActivity<DetailsPresenter> implements D
 
     private Track track;
     private Artist artist;
+    // endregion
 
+    // region Override methods
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.details_activity);
         ButterKnife.bind(this);
         initUI();
-    }
-
-    @OnClick(R.id.btn_go_home)
-    void goHome(){
-        finish();
-    }
-
-    @OnClick(R.id.btn_browser_track)
-    void browserTrack(){
-        if(track != null && !track.getUrl().isEmpty()) Navegador.toBrowser(this, track.getUrl());
-        else Toast.makeText(this, "No es posible navegar a esa url", Toast.LENGTH_SHORT).show();
-    }
-
-    @OnClick(R.id.btn_browser_artist)
-    void browserArtist(){
-        if(artist != null && !artist.getUrl().isEmpty()) Navegador.toBrowser(this, artist.getUrl());
-        else Toast.makeText(this, "No es posible navegar a esa url", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -77,7 +61,25 @@ public class DetailsActivity extends BaseActivity<DetailsPresenter> implements D
         return new DetailsPresenter(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
+    @Override
+    public void showNumberTracks(int numberTracks) {
+        setNumberSongs(String.valueOf(numberTracks));
+    }
+
+    @Override
+    public void showArtist(Artist artist) {
+        this.artist = artist;
+        setNameArtist(artist.getName());
+        setMbIdArtist(artist.getMbid());
+    }
+    // endregion
+
+    // region Class methods
     void initUI() {
         Intent intent = getIntent();
         track = intent.getParcelableExtra(EXTRA_TRACK);
@@ -136,21 +138,25 @@ public class DetailsActivity extends BaseActivity<DetailsPresenter> implements D
     void setNumberSongs(String numberSongs) {
         textViewNumberSongs.setText(numberSongs);
     }
+    // endregion
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    // region Butterknife methods
+    @OnClick(R.id.btn_go_home)
+    void goHome() {
+        finish();
     }
 
-    @Override
-    public void showNumberTracks(int numberTracks) {
-        setNumberSongs(String.valueOf(numberTracks));
+    @OnClick(R.id.btn_browser_track)
+    void browserTrack() {
+        if (track != null && !track.getUrl().isEmpty()) Navegador.toBrowser(this, track.getUrl());
+        else Toast.makeText(this, "No es posible navegar a esa url", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void showArtist(Artist artist) {
-        this.artist = artist;
-        setNameArtist(artist.getName());
-        setMbIdArtist(artist.getMbid());
+    @OnClick(R.id.btn_browser_artist)
+    void browserArtist() {
+        if (artist != null && !artist.getUrl().isEmpty())
+            Navegador.toBrowser(this, artist.getUrl());
+        else Toast.makeText(this, "No es posible navegar a esa url", Toast.LENGTH_SHORT).show();
     }
+    // endregion
 }
