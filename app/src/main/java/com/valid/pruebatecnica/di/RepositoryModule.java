@@ -3,6 +3,8 @@ package com.valid.pruebatecnica.di;
 import com.valid.pruebatecnica.data.base.database.GeoDatabase;
 import com.valid.pruebatecnica.data.source.artist.local.ArtistLocalDataSource;
 import com.valid.pruebatecnica.data.source.artist.local.dao.ArtistDao;
+import com.valid.pruebatecnica.data.source.artist.repository.ArtistDataSource;
+import com.valid.pruebatecnica.data.source.artist.repository.ArtistRepository;
 import com.valid.pruebatecnica.data.source.artistTrack.local.ArtistTrackLocalDataSource;
 import com.valid.pruebatecnica.data.source.artistTrack.local.dao.ArtistTrackDao;
 import com.valid.pruebatecnica.data.source.artistTrack.repository.ArtistTrackDataSource;
@@ -44,6 +46,14 @@ public class RepositoryModule {
         TrackLocalDataSource trackLocal = TrackLocalDataSource.getInstance(trackDao);
 
         return TrackRepository.getInstance(trackLocal);
+    }
+
+    @Provides
+    ArtistRepository provideArtistRepository() {
+        ArtistDao artistDao = GeoDatabase.getInstance().artistDao();
+        ArtistDataSource localArtist = ArtistLocalDataSource.getInstance(artistDao);
+
+        return ArtistRepository.getInstance(localArtist);
     }
 
     @Provides
