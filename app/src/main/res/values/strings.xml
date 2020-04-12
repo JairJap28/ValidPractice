@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">PruebaTecnica</string>
+    <string name="listeners">Listeners:</string>
+    <string name="duration">Duration:</string>
+    <string name="default_0">0</string>
+    <string name="rank">Rank</string>
+    <string name="title">Title</string>
+    <string name="borrar_todos">Borrar Todos</string>
+    <string name="no_hay_canciones_almacenadas">No hay canciones almacenadas</string>
+    <string name="track_image">Track Image</string>
+    <string name="divider">Divider</string>
+    <string name="ver_track_online">Ver Track Online</string>
+    <string name="mbid">Mbid:</string>
+    <string name="name">Name:</string>
+    <string name="ver_artiste_online">Ver Artista Online</string>
+    <string name="canciones">Canciones:</string>
+    <string name="icon_info">Icon Info</string>
+    <string name="consultar">Consultar</string>
+    <string name="top_artists">Top Artists</string>
+    <string name="num_registros">Num. registros:</string>
+    <string name="volver">Volver</string>
 </resources>
