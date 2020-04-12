@@ -55,14 +55,18 @@
     <jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="10dp"
         android:id="@+id/main_swipe">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_tracks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:paddingTop="10dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2" />
 
     </jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout>
 

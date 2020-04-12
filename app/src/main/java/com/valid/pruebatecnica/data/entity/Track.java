@@ -12,7 +12,6 @@ import androidx.room.PrimaryKey;
 @Entity(
         tableName = "tracks",
         indices = @Index(value = "track_id", unique = true)
-        //foreignKeys = @ForeignKey(entity = Artist.class, parentColumns = "artist_id", childColumns = "track_id")
 )
 public class Track implements Parcelable {
 

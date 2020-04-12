@@ -3,7 +3,6 @@ package com.valid.pruebatecnica.ui.components.main;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,15 +14,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.valid.pruebatecnica.App;
 import com.valid.pruebatecnica.R;
 import com.valid.pruebatecnica.data.entity.Track;
 import com.valid.pruebatecnica.ui.base.BaseActivity;
 import com.valid.pruebatecnica.ui.base.Navegador;
-import com.valid.pruebatecnica.ui.components.detail.DetailsActivity;
 
 import java.util.List;
 
@@ -33,6 +33,7 @@ import butterknife.OnClick;
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainView, TrackAdapter.TrackListener {
+
 
     private TrackAdapter trackAdapter;
 
@@ -54,11 +55,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     @BindView(R.id.progress_circular_search)
     ProgressBar progressBarSearch;
 
-    // first -> page, second, numTracks
-    Pair<Integer, Integer> amountResult = new Pair<>(1, 0);
-    boolean isLoading = false;
-    List<Track> traks;
-    Menu menu;
+    MainActivityData data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +63,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(myToolbar);
+        data = new ViewModelProvider(this).get(MainActivityData.class);
         initUI();
-        initPresenter();
+        if(data.getTraks() == null || data.getTraks().isEmpty()) initPresenter();
+        else showTracks(data.getTraks());
     }
 
     @Override
@@ -80,19 +79,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.menu_delete_all:
-                presenter.deleteAllTracks();
-                amountResult = new Pair<>(1, 0);
-                setNumberRecords();
-                return true;
-            default: return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.menu_delete_all) {
+            presenter.deleteAllTracks();
+            data.restart();
+            setNumberRecords();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initUI() {
         initSwipeLayout();
-        initRecycler();
         initAdapter();
         initScrollListener();
         setNumberRecords();
@@ -103,10 +100,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         mWaveSwipeRefreshLayout.setColorSchemeColors(Color.WHITE, Color.WHITE);
         mWaveSwipeRefreshLayout.setWaveColor(Color.rgb(10, 182,234));
         mWaveSwipeRefreshLayout.setOnRefreshListener(this::loadNextTracks);
-    }
-
-    private void initRecycler(){
-        recyclerViewTracks.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void initAdapter() {
@@ -125,11 +118,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                if(!isLoading) {
-                    if(linearLayoutManager != null && traks.size() > 8 &&
-                            linearLayoutManager.findLastCompletelyVisibleItemPosition() == traks.size() - 1) {
+                if(!data.isLoading()) {
+                    if(linearLayoutManager != null && data.getTraks().size() > 8 &&
+                            linearLayoutManager.findLastCompletelyVisibleItemPosition() == data.getTraks().size() - 1) {
                         showLoading();
-                        isLoading = true;
+                        data.setLoading(true);
                         loadNextTracks();
                     }
                 }
@@ -139,19 +132,19 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     }
 
     private void initPresenter() {
-        presenter.setPage(amountResult.first);
+        presenter.setPage(data.getPage());
         presenter.onAttach();
     }
 
 
     private void setNumberRecords(){
-        numberRecords.setText(String.valueOf(amountResult.second));
+        numberRecords.setText(String.valueOf(data.getNumResults()));
     }
 
 
     private void loadNextTracks() {
         recyclerViewTracks.setVisibility(View.VISIBLE);
-        presenter.setPage(amountResult.first);
+        presenter.setPage(data.getPage());
         presenter.onAttach();
     }
 
@@ -174,11 +167,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
             mWaveSwipeRefreshLayout.setVisibility(View.VISIBLE);
             layoutNoRecords.setVisibility(View.GONE);
             trackAdapter.submitList(traks);
-            this.traks = traks;
-            amountResult = new Pair<>(traks.size() > amountResult.second ? amountResult.first + 1: amountResult.first, traks.size());
+            data.setTraks(traks);
+            data.setPage(traks.size() > data.getNumResults() ? data.getPage() + 1: data.getPage());
+            data.setNumResults(traks.size());
             setNumberRecords();
             hideLoading();
-            isLoading = false;
+            data.setLoading(false);
         });
     }
 

@@ -9,5 +9,9 @@ import retrofit2.http.Query;
 
 public interface TrackApi {
     @GET(BuildConfig.SERVICE_TOP_TRACKS)
-    Call<TrackResponse> getTracks(@Query("page") int page);
+    Call<TrackResponse> getTracks(
+            @Query("page") int page,
+            @Query("api_key") String api_key,
+            @Query("country") String country
+    );
 }

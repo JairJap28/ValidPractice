@@ -16,9 +16,11 @@ import com.valid.pruebatecnica.R;
 import com.valid.pruebatecnica.data.entity.Artist;
 import com.valid.pruebatecnica.data.entity.Track;
 import com.valid.pruebatecnica.ui.base.BaseActivity;
+import com.valid.pruebatecnica.ui.base.Navegador;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DetailsActivity extends BaseActivity<DetailsPresenter> implements DetailsView  {
 
@@ -35,6 +37,7 @@ public class DetailsActivity extends BaseActivity<DetailsPresenter> implements D
     @BindView(R.id.text_view_number_songs) TextView textViewNumberSongs;
 
     private Track track;
+    private Artist artist;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +45,23 @@ public class DetailsActivity extends BaseActivity<DetailsPresenter> implements D
         setContentView(R.layout.details_activity);
         ButterKnife.bind(this);
         initUI();
+    }
+
+    @OnClick(R.id.btn_go_home)
+    void goHome(){
+        finish();
+    }
+
+    @OnClick(R.id.btn_browser_track)
+    void browserTrack(){
+        if(track != null && !track.getUrl().isEmpty()) Navegador.toBrowser(this, track.getUrl());
+        else Toast.makeText(this, "No es posible navegar a esa url", Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.btn_browser_artist)
+    void browserArtist(){
+        if(artist != null && !artist.getUrl().isEmpty()) Navegador.toBrowser(this, artist.getUrl());
+        else Toast.makeText(this, "No es posible navegar a esa url", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -129,6 +149,7 @@ public class DetailsActivity extends BaseActivity<DetailsPresenter> implements D
 
     @Override
     public void showArtist(Artist artist) {
+        this.artist = artist;
         setNameArtist(artist.getName());
         setMbIdArtist(artist.getMbid());
     }

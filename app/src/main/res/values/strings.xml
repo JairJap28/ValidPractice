@@ -16,4 +16,7 @@
     <string name="canciones">Canciones:</string>
     <string name="icon_info">Icon Info</string>
     <string name="consultar">Consultar</string>
+    <string name="top_artists">Top Artists</string>
+    <string name="num_registros">Num. registros:</string>
+    <string name="volver">Volver</string>
 </resources>

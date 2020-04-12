@@ -1,5 +1,11 @@
 package com.valid.pruebatecnica.data.source.geo.remote;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.valid.pruebatecnica.data.source.geo.repository.GeoDataSource;
 import com.valid.pruebatecnica.data.source.geo.remote.model.TrackResponse;
 import com.valid.pruebatecnica.data.source.geo.remote.services.TrackApi;
@@ -34,7 +40,27 @@ public class GeoRemoteDataSource implements GeoDataSource {
 
     @Override
     public void getListData(LoadListCallback<TrackResponse> callback, int page) {
-        trackApi.getTracks(page).enqueue(new Callback<TrackResponse>() {
+        this.page = page;
+        FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings settings = new FirebaseRemoteConfigSettings.Builder()
+                .setFetchTimeoutInSeconds(0)
+                .build();
+        firebaseRemoteConfig.setConfigSettingsAsync(settings);
+
+        firebaseRemoteConfig.fetch(0)
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        firebaseRemoteConfig.activateFetched();
+                        getDataWithKey(callback, firebaseRemoteConfig.getString("api_key"), firebaseRemoteConfig.getString("country"));
+                    }
+                    else {
+                        callback.onDataNotAvailable();
+                    }
+                });
+    }
+
+    private void getDataWithKey(LoadListCallback<TrackResponse> callback, String api_key, String country){
+        trackApi.getTracks(page, api_key, country).enqueue(new Callback<TrackResponse>() {
             @Override
             public void onResponse(Call<TrackResponse> call, Response<TrackResponse> response) {
                 if(response.body() != null) {

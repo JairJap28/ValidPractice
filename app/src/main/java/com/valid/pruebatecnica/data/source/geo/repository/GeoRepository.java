@@ -53,8 +53,12 @@ public class GeoRepository implements GeoDataSource {
         geoRemote.getListData(new LoadListCallback<TrackResponse>() {
             @Override
             public void onLoaded(List<TrackResponse> list) {
-                saveListData(list);
-                callback.onLoaded(list);
+                if(list.get(0) == null || list.get(0).getTracks() == null){
+                    callback.onError();
+                } else {
+                    saveListData(list);
+                    callback.onLoaded(list);
+                }
             }
 
             @Override
