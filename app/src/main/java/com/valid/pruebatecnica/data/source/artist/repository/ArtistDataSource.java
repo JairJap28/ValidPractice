@@ -5,4 +5,6 @@ import com.valid.pruebatecnica.data.entity.Artist;
 
 public interface ArtistDataSource extends DataStoreBase<Artist> {
     void getArtistsByIdTrack(LoadSingleCallback<Artist> callback, String trackMbId);
+
+    void deleteAll();
 }

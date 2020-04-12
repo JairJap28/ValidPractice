@@ -68,6 +68,11 @@ public class ArtistTrackRepository implements ArtistTrackDataSource {
     }
 
     @Override
+    public void deleteAll() {
+        localArtistTrack.deleteAll();
+    }
+
+    @Override
     public void getListData(LoadListCallback<ArtistTrack> callback, int page) {
 
     }

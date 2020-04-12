@@ -54,6 +54,14 @@ public class ArtistTrackLocalDataSource implements ArtistTrackDataSource {
     }
 
     @Override
+    public void deleteAll() {
+        Runnable runnable = () -> {
+            artistTrackDao.deleteAll();
+        };
+        executor.execute(runnable);
+    }
+
+    @Override
     public void getListData(LoadListCallback<ArtistTrack> callback, int page) {
 
     }

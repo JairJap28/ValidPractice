@@ -2,6 +2,8 @@ package com.valid.pruebatecnica.ui.components.main;
 
 import com.valid.pruebatecnica.data.base.DataStoreBase;
 import com.valid.pruebatecnica.data.entity.Track;
+import com.valid.pruebatecnica.data.source.artist.repository.ArtistRepository;
+import com.valid.pruebatecnica.data.source.artistTrack.repository.ArtistTrackRepository;
 import com.valid.pruebatecnica.data.source.geo.remote.model.TrackResponse;
 import com.valid.pruebatecnica.data.source.geo.repository.GeoRepository;
 import com.valid.pruebatecnica.data.source.track.repository.TrackRepository;
@@ -16,6 +18,10 @@ public class MainPresenter extends BasePresenter<MainView> {
     // region Properties
     @Inject GeoRepository geoRepository;
     @Inject TrackRepository trackRepository;
+    @Inject
+    ArtistRepository artistRepository;
+    @Inject
+    ArtistTrackRepository artistTrackRepository;
 
     private int page;
 
@@ -43,6 +49,7 @@ public class MainPresenter extends BasePresenter<MainView> {
 
     public void deleteAllTracks() {
         trackRepository.deleteAll();
+        artistRepository.deleteAll();
         getAllRemoteTracks();
     }
     // endregion

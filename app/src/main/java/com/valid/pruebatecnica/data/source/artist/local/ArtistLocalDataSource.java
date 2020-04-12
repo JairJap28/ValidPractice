@@ -71,5 +71,13 @@ public class ArtistLocalDataSource implements ArtistDataSource {
         };
         executor.execute(runnable);
     }
+
+    @Override
+    public void deleteAll() {
+        Runnable runnable = () -> {
+            artistDao.deleteAllArtists();
+        };
+        executor.execute(runnable);
+    }
     // endregion
 }

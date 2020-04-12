@@ -81,5 +81,10 @@ public class ArtistRepository implements ArtistDataSource{
             }
         }, trackMbId);
     }
+
+    @Override
+    public void deleteAll() {
+        localArtist.deleteAll();
+    }
     // endregion
 }
